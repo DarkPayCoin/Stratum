@@ -98,7 +98,7 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 	json_int_t available = templ->value;
 
 	
-	if(coind->symbol == "XLQ") /* ALQO [XLQ] */
+	if(strcmp(coind->symbol, "XLQ") == 0) /* ALQO [XLQ] */
 	{
 		char charity_payee[256] = { 0 };
 		const char *payee = json_get_string(json_result, "payee");
