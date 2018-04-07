@@ -103,7 +103,8 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 		char charity_payee[256] = { 0 };
 		const char *payee = json_get_string(json_result, "payee");
 		if (payee) snprintf(charity_payee, 255, "%s", payee);
-
+		
+		json_int_t developerfee_payment = available*0.05;
 		json_int_t masternode_payment = json_get_int(json_result, "payee_amount");
 
 		strcat(templ->coinb2, "03");
@@ -118,9 +119,9 @@ void coinbase_create(YAAMP_COIND *coind, YAAMP_JOB_TEMPLATE *templ, json_value *
 		// DEVELOPER FEE
 		char script_devfee[1024];
 		base58_decode("AG6MCBRozzcQMMi2SXdi4TJhhLeycQERyk", script_devfee);
-		job_pack_tx(coind, templ->coinb2, available*0.05, script_devfee);
+		job_pack_tx(coind, templ->coinb2, developerfee_payment, script_devfee);
 		
-		available -= available*0.05;
+		available -= developerfee_payment;
 		
 		// MINER
 		job_pack_tx(coind, templ->coinb2, available, NULL);
